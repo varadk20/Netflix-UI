@@ -1,20 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import HomeScreen from "./pages/HomeScreen";
+import DetailsScreen from "./pages/DetailsScreen";
+import SearchScreen from "./pages/SearchScreen"; // Import SearchScreen
+import { TouchableOpacity } from "react-native";
 
-export default function App() {
+
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={({ navigation }) => ({
+            title: "Netflix",
+            headerTitleStyle: { fontSize: 30 },
+            headerStyle: { backgroundColor: "#000" },
+            headerTintColor: "red",
+            headerRight: () => (
+              <TouchableOpacity
+                style={{ marginRight: 15 }}
+                onPress={() => navigation.navigate("Search")}
+              >
+                <Ionicons name="search" size={24} color="white" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{
+            title: "Show Details",
+            headerStyle: { backgroundColor: "#000" },
+            headerTintColor: "#fff",
+          }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            title: "Search Shows",
+            headerStyle: { backgroundColor: "#000" },
+            headerTintColor: "#fff",
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
